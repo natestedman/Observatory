@@ -18,6 +18,7 @@ from dashboard.util import find_author, sanitize
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from hashlib import md5
 from lib import feedparser, dateutil
 from EventSet import EventSet
 
@@ -68,6 +69,20 @@ class Blog(EventSet):
       except:
         content = post.description
       
+      # md5 checksum the post's content
+      m = md5()
+      m.update(content.encode("utf-8"))
+      checksum = m.hexdigest()[0:32]
+      
+      # check to see if this post has already been updated
+      try:
+        already_exists = BlogPost.objects.get(md5 = checksum)
+        print "THERE IS SOME STUFF"
+        continue
+      except:
+        print checksum
+        pass
+      
       try:
         author_name = post.author_detail["name"]
       except:
@@ -104,7 +119,8 @@ class Blog(EventSet):
         extra_args = {
           "external_link": post.link,
           "content": content,
-          "blog_id": self.id
+          "blog_id": self.id,
+          "md5": checksum,
         }
       ))
     

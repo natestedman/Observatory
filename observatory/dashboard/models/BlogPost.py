@@ -33,6 +33,9 @@ class BlogPost(Event):
   
   # the external link for a post, if applicable
   external_link = models.URLField(blank = True, null = True)
+  
+  # an md5 checksum of the content, to prevent duplicates
+  md5 = models.CharField(max_length = 32)
     
   def autoescape(self):
     return False

@@ -108,7 +108,7 @@ obsv.save()
 
 note_blog = Blog(from_feed = True,
                  url = "http://hortont.com/blog",
-                 rss = "http://www.hortont.com/blog//feed/rss.xml")
+                 rss = "http://www.peterhajas.com/blog/atom.xml")
 note_blog.save()
 note_repo = Repository(web_url = "https://github.com/hortont424/Notebook",
                        clone_url = "git://github.com/hortont424/notebook.git",
